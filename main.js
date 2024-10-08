@@ -30,7 +30,7 @@ function convert(){
     conLabel();
     conTextbox();
     conCommand();
-    // conSearch();
+    conSearch();
     //処理終了
     message.hidden=true;
 
@@ -306,11 +306,59 @@ function conCommand(){
 };
 
 
-//🔍検索ボタン--ok(完全にok。あったら変換、あったら変換で確実)
+// //🔍検索ボタン--ok(完全にok。あったら変換、あったら変換で確実)
+// function conSearch(){
+//     //変数定義
+//     var sIndex = 0;//検索開始位置
+
+//     var sKakkoBtn;// →<
+//     var sClass;// →class =
+//     var doubleClass; //class = " ←　"
+//     var eKakkoBtn;// >←
+//     var ikakkoS; // →<i
+//     var endTag; // →</button>
+//     for(let i = 0; i < 1000; i++){
+//         //<button検索
+//         if(input.indexOf("<button",sIndex) != -1){
+//             sKakkoBtn = input.indexOf("<button",sIndex);
+//             array[sKakkoBtn]=`<h:form>
+//     <h:commandButton action="#{}" value = "&#xf002;"`;//<
+//             array[sKakkoBtn+1]="";///b
+//             array[sKakkoBtn+2]="";///u
+//             array[sKakkoBtn+3]="";///t
+//             array[sKakkoBtn+4]="";///t
+//             array[sKakkoBtn+5]="";///o
+//             array[sKakkoBtn+6]="";///n
+//             sIndex=sKakkoBtn+1;
+//             //class検索
+//                 sClass = input.indexOf("class",sIndex);
+//                 array[sClass]=`styleClass`;//c
+//                 array[sClass+1]="";//l
+//                 array[sClass+2]="";//a
+//                 array[sClass+3]="";//s
+//                 array[sClass+4]="";//s
+//                 //"を検索
+//                 doubleClass = input.indexOf('"',sClass);
+//                 array[doubleClass]='"fas ';
+//                 //>を検索
+//                 eKakkoBtn = input.indexOf(">",doubleClass);
+//                 array[eKakkoBtn]=`/>
+// </h:form>`;
+//                 //<iを検索
+//                 ikakkoS = input.indexOf("<i",eKakkoBtn);
+//                 //</button>を検索
+//                 endTag = input.indexOf("</button>",ikakkoS);
+//                 //iタグ以降消去
+//                 for(let a = ikakkoS; a <= (endTag + 8); a++){
+//                     array[a]="";
+//                 }
+//         }
+//     }
+// }
+
 function conSearch(){
     //変数定義
     var sIndex = 0;//検索開始位置
-
     var sKakkoBtn;// →<
     var sClass;// →class =
     var doubleClass; //class = " ←　"
@@ -321,41 +369,46 @@ function conSearch(){
         //<button検索
         if(input.indexOf("<button",sIndex) != -1){
             sKakkoBtn = input.indexOf("<button",sIndex);
-            array[sKakkoBtn]=`<h:form>
-    <h:commandButton action="#{}" value = "&#xf002;"`;//<
-            array[sKakkoBtn+1]="";///b
-            array[sKakkoBtn+2]="";///u
-            array[sKakkoBtn+3]="";///t
-            array[sKakkoBtn+4]="";///t
-            array[sKakkoBtn+5]="";///o
-            array[sKakkoBtn+6]="";///n
-            sIndex=sKakkoBtn+1;
-            //class検索
-                sClass = input.indexOf("class",sIndex);
-                array[sClass]=`styleClass`;//c
-                array[sClass+1]="";//l
-                array[sClass+2]="";//a
-                array[sClass+3]="";//s
-                array[sClass+4]="";//s
-                //"を検索
-                doubleClass = input.indexOf('"',sClass);
-                array[doubleClass]='"fas ';
-                //>を検索
-                eKakkoBtn = input.indexOf(">",doubleClass);
-                array[eKakkoBtn]=`/>
-</h:form>`;
-                //<iを検索
-                ikakkoS = input.indexOf("<i",eKakkoBtn);
-                //</button>を検索
-                endTag = input.indexOf("</button>",ikakkoS);
-                //iタグ以降消去
-                for(let a = ikakkoS; a <= (endTag + 8); a++){
-                    array[a]="";
+            array[sKakkoBtn]=`<h:form>\n    <h:commandButton action="#{}" value = "&#xf002;"`;//<
+
+            // buttonタグ内のclassを処理
+            sClass = input.indexOf("class", sKakkoBtn);
+            if (sClass !== -1) {
+                array[sClass] = `styleClass`; // classの変換
+                array[sClass + 1] = ""; // 不要な文字を空にする
+                array[sClass + 2] = "";
+                array[sClass + 3] = "";
+                array[sClass + 4] = "";
+            }
+
+            //"fas"クラスを追加
+            doubleClass = input.indexOf('"', sClass);
+            if (doubleClass !== -1) {
+                array[doubleClass] = '"fas ';
+            }
+
+            // 閉じタグの処理
+            eKakkoBtn = input.indexOf(">", doubleClass);
+            if (eKakkoBtn !== -1) {
+                array[eKakkoBtn] = ` />\n</h:form>`;
+            }
+
+            // <i>タグ以降の処理をクリア
+            ikakkoS = input.indexOf("<i", eKakkoBtn);
+            endTag = input.indexOf("</button>", ikakkoS);
+            if (ikakkoS !== -1 && endTag !== -1) {
+                for(let a = ikakkoS; a <= endTag + 8; a++){
+                    array[a] = ""; // iタグ部分をクリア
                 }
+            }
+
+            // 検索開始位置を更新
+            sIndex = endTag + 9;
+        } else {
+            break;
         }
     }
 }
-
 
 
 
