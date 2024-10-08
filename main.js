@@ -30,7 +30,7 @@ function convert(){
     conLabel();
     conTextbox();
     conCommand();
-    conSearch();
+    // conSearch();
     //処理終了
     message.hidden=true;
 
