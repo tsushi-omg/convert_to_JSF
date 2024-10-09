@@ -251,8 +251,7 @@ function conCommand(){
                                         if(array[submitIn+1]=="s" && array[submitIn+2]=="u" && array[submitIn+3]=="b" && array[submitIn+4]=="m" && array[submitIn+5]=="i" && array[submitIn+6]=="t"){
                                             // alert("ok");--ok
                                             //文字列変換実行
-                                            array[inputIn]=`h:form>
-    <h:commandButton action="#{}"`;
+                                            array[inputIn]=`h:commandButton action="#{}"`;
                                             array[inputIn+1]="";//n
                                             array[inputIn+2]="";//p
                                             array[inputIn+3]="";//u
@@ -270,8 +269,7 @@ function conCommand(){
                                             array[submitIn+5]="";//i
                                             array[submitIn+6]="";//t
                                             array[submitIn+7]="";//""
-                                            array[endTag]=`>
-</h:form>`;//>
+                                            array[endTag]=`>`;//>
                                             //<～>間でclassを探す
                                             for(let i10 = inputIn; i10 < closeKakko; i10++){
                                                 if(input[i10]=="c" && input[i10+1]=="l" && input[i10+2]=="a" && input[i10+3]=="s" && input[i10+4]=="s"){
@@ -369,7 +367,7 @@ function conSearch(){
         //<button検索
         if(input.indexOf("<button",sIndex) != -1){
             sKakkoBtn = input.indexOf("<button",sIndex);
-            array[sKakkoBtn]=`<h:form>\n    <h:commandButton action="#{}" value = "&#xf002;"`;//<
+            array[sKakkoBtn]=`<h:commandButton action="#{}" value = "&#xf002;"`;//<
 
             // buttonタグ内のclassを処理
             sClass = input.indexOf("class", sKakkoBtn);
@@ -390,7 +388,7 @@ function conSearch(){
             // 閉じタグの処理
             eKakkoBtn = input.indexOf(">", doubleClass);
             if (eKakkoBtn !== -1) {
-                array[eKakkoBtn] = ` />\n</h:form>`;
+                array[eKakkoBtn] = ` />`;
             }
 
             // <i>タグ以降の処理をクリア
